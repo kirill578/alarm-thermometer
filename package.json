@@ -1,7 +1,7 @@
 {
   "name": "api-to-graph",
   "version": "0.1.0",
-  "homepage": "https://kirill578.github.io/api-to-graph/",
+  "homepage": "https://kirill578.github.io/alarm-thermometer/",
   "dependencies": {
     "@devexpress/dx-chart-core": "^2.1.2",
     "@devexpress/dx-react-chart": "^2.1.2",

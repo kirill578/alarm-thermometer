@@ -51,20 +51,17 @@ const toCustomLocaleString = (date: Date) =>
       })
       .replace(/:00/, '');
 
+const urlForGet = 'http://js-api-bin.herokuapp.com/api/listen-receive-storm/db'; // window.location.search.substr(1);
+
 export const App = () => {
   const [data, setData] = React.useState<Record<string, string>[]>([]);
 
   useEffect(() => {
     const load = async () => {
-      const fetched = await fetch(window.location.search.substr(1));
-      const data: Record<string, string>[] = (await fetched.json() as any).map((item: any) => ({
-        timestamp: item.timestamp,
-        airTemp: parseFloat(item.airTemp),
-        airHumidity: parseFloat(item.airHumidity),
-        temp1: parseFloat(item.temp1),
-        waterTemp: parseFloat(item.temp2),
-        temp3: parseFloat(item.temp3),
-        heatActive: item.heatActive ? (item.heatActive == 1 ? 100 : 0) : 0,
+      const fetched = await fetch(urlForGet);
+      const data: Record<string, string>[] = Object.entries((await fetched.json() as Record<string, string>)).map(([key, value]) => ({
+        timestamp: key,
+        temp: value, //parseFloat(value),
       }));
       setData(data);
     };
@@ -81,7 +78,6 @@ export const App = () => {
           />
 
           <ValueScale name="c" />
-          <ValueScale name="%" />
 
           <ArgumentAxis tickFormat={() => (ms: string) => {
             return toCustomLocaleString(new Date(ms));
@@ -90,18 +86,8 @@ export const App = () => {
             scaleName="c"
             labelComponent={Label(' C')}
           />
-          <ValueAxis
-            scaleName="%"
-            position="right"
-            labelComponent={Label(' %')}
-          />
 
-          <LineSeries scaleName="c" name="airTemp" valueField="airTemp" argumentField={"timestamp"} />
-          <LineSeries scaleName="%" name="airHumidity" valueField="airHumidity" argumentField={"timestamp"} />
-          <LineSeries scaleName="%" name="heatActive" valueField="heatActive" argumentField={"timestamp"} />
-          <LineSeries scaleName="c" name="waterTemp" valueField="waterTemp" argumentField={"timestamp"} />
-          <LineSeries scaleName="c" name="temp1" valueField="temp1" argumentField={"timestamp"} />
-          <LineSeries scaleName="c" name="temp3" valueField="temp3" argumentField={"timestamp"} />
+          <LineSeries scaleName="c" name="temp" valueField="temp" argumentField={"timestamp"} />
 
           <ZoomAndPan />
         </Chart>
