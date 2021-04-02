@@ -51,7 +51,7 @@ const toCustomLocaleString = (date: Date) =>
       })
       .replace(/:00/, '');
 
-const urlForGet = 'http://js-api-bin.herokuapp.com/api/listen-receive-storm/db'; // window.location.search.substr(1);
+const urlForGet = 'https://js-api-bin.herokuapp.com/api/listen-receive-storm/db'; // window.location.search.substr(1);
 
 export const App = () => {
   const [data, setData] = React.useState<Record<string, string>[]>([]);
